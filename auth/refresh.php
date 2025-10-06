@@ -3,7 +3,6 @@ require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../utils/jwt.php';
 require_once __DIR__ . '/../helpers/response.php';
-require_once __DIR__ . '/../config/corse.php';
 
 // header('Content-Type: application/json');
 // header('Access-Control-Allow-Origin: *');

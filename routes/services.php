@@ -80,6 +80,24 @@ try {
                     $input['image'] = 'uploads/services/' . $filename;
                 }
                 
+                // Method override: treat POST as UPDATE when _method=PUT
+                if (isset($_POST['_method']) && strtoupper($_POST['_method']) === 'PUT') {
+                    // Resolve ID from form-data or query
+                    if (!$id && isset($_POST['id']) && is_numeric($_POST['id'])) {
+                        $id = (int)$_POST['id'];
+                    }
+                    if (!$id && isset($_GET['id']) && is_numeric($_GET['id'])) {
+                        $id = (int)$_GET['id'];
+                    }
+                    if (!$id) {
+                        http_response_code(400);
+                        echo json_encode(['error' => 'Service ID is required for update']);
+                        exit;
+                    }
+                    $controller->handlePut($id, $input);
+                    break;
+                }
+                
                 $controller->handlePost($input);
             } else {
                 // Expect JSON
@@ -88,6 +106,22 @@ try {
                     http_response_code(400);
                     echo json_encode(['error' => 'Invalid JSON input']);
                     exit;
+                }
+                // Method override for JSON
+                if (isset($input['_method']) && strtoupper($input['_method']) === 'PUT') {
+                    if (!$id && isset($input['id']) && is_numeric($input['id'])) {
+                        $id = (int)$input['id'];
+                    }
+                    if (!$id && isset($_GET['id']) && is_numeric($_GET['id'])) {
+                        $id = (int)$_GET['id'];
+                    }
+                    if (!$id) {
+                        http_response_code(400);
+                        echo json_encode(['error' => 'Service ID is required for update']);
+                        exit;
+                    }
+                    $controller->handlePut($id, $input);
+                    break;
                 }
                 $controller->handlePost($input);
             }
@@ -105,6 +139,10 @@ try {
                 // Get ID from form-data if not in path
                 if (!$id && isset($_POST['id']) && is_numeric($_POST['id'])) {
                     $id = (int)$_POST['id'];
+                }
+                // Also allow ID from query string for PUT with multipart
+                if (!$id && isset($_GET['id']) && is_numeric($_GET['id'])) {
+                    $id = (int)$_GET['id'];
                 }
                 
                 if (!$id) {
@@ -167,6 +205,10 @@ try {
                 // Get ID from JSON body if not in path
                 if (!$id && isset($input['id']) && is_numeric($input['id'])) {
                     $id = (int)$input['id'];
+                }
+                // Also allow ID from query string
+                if (!$id && isset($_GET['id']) && is_numeric($_GET['id'])) {
+                    $id = (int)$_GET['id'];
                 }
                 
                 if (!$id) {
