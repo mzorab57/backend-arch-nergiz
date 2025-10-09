@@ -1,14 +1,12 @@
--- Create Database 
-CREATE DATABASE IF NOT EXISTS arch_nergiz; 
-USE arch_nergiz; 
 
--- Table: categories 
+
+
 CREATE TABLE categories ( 
     id INT AUTO_INCREMENT PRIMARY KEY, 
     name VARCHAR(255) NOT NULL 
 ); 
 
--- Table: services 
+
 CREATE TABLE services ( 
     id INT AUTO_INCREMENT PRIMARY KEY, 
     name VARCHAR(255) NOT NULL, 
@@ -16,7 +14,7 @@ CREATE TABLE services (
     description TEXT 
 ); 
 
--- Table: contacts 
+
 CREATE TABLE contacts ( 
     id INT AUTO_INCREMENT PRIMARY KEY, 
     address VARCHAR(255), 
@@ -24,7 +22,7 @@ CREATE TABLE contacts (
     phone VARCHAR(50) 
 ); 
 
--- Table: portfolio 
+
 CREATE TABLE portfolio ( 
     id INT AUTO_INCREMENT PRIMARY KEY, 
     name VARCHAR(255) NOT NULL, 
@@ -34,9 +32,9 @@ CREATE TABLE portfolio (
     date DATE, 
     category_id INT, 
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL 
-); 
+);
 
--- Table: portfolio_images 
+
 CREATE TABLE portfolio_images ( 
     id INT AUTO_INCREMENT PRIMARY KEY, 
     portfolio_id INT, 
