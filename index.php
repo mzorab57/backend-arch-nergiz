@@ -36,6 +36,10 @@ switch (true) {
         require_once __DIR__ . '/routes/users.php';
         break;
         
+    case $path === '/utils/seed_admin':
+        require_once __DIR__ . '/utils/seed_admin.php';
+        break;
+        
     case $path === '/auth/login':
         require_once __DIR__ . '/auth/login.php';
         break;
@@ -88,7 +92,8 @@ switch (true) {
                 "POST /users" => "Create new user (Admin only)",
                 "PUT /users/{id}" => "Update user (Admin only)",
                 "DELETE /users/{id}" => "Delete user (Admin only)",
-                "POST /users/{id}/change-password" => "Change user password"
+                "POST /users/{id}/change-password" => "Change user password",
+                "GET /utils/seed_admin?token=..." => "Seed admin user (protected)"
             ]
         ]);
         break;
